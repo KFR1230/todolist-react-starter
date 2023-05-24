@@ -19,5 +19,5 @@
 2. 將專案clone到本地
 3. 到終端機開啟專案 並輸入 npm install
 4. 輸入 npm start
-5. 打開瀏覽器輸入http://localhost:3000，便可看到畫面
+5. 打開瀏覽器輸入http://localhost:3000/TodoPage，便可看到畫面
 6. 若想停止到終端機輸入 ctrl + c
