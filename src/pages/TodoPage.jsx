@@ -1,80 +1,81 @@
+import { getTodo } from 'api/todos';
 import { Footer, Header, TodoCollection, TodoInput } from 'components';
-import { useState } from 'react';
-const dummyTodos = [
-  {
-    title: 'Learn react-router',
-    isDone: true,
-    id: 1,
-  },
-  {
-    title: 'Learn to create custom hooks',
-    isDone: false,
-    id: 2,
-  },
-  {
-    title: 'Learn to use context',
-    isDone: true,
-    id: 3,
-  },
-  {
-    title: 'Learn to implement auth',
-    isDone: false,
-    id: 4,
-  },
-];
+import { useEffect, useState } from 'react';
+import { getTodos,createTodo,patchTodo,deleteTodo } from 'api/todos';
+
 
 
 
 const TodoPage = () => {
   const [inputValue, setInputValue] = useState('');
-  const [todos, setTodos] = useState(dummyTodos)
+  const [todos, setTodos] = useState([])
   const total = todos.length;
   const handleChange = (value) => {
     setInputValue(value);
   };
 
-  const handleAddTodo = () => {
+  const handleAddTodo = async () => {
     if (inputValue.length === 0) {
       return;
     }
+    try{
+       const data = await createTodo({
+         title: inputValue,
+         isDone: false,
+       });
+       setTodos((prevTodos) => {
+         return [
+           ...prevTodos,
+           {
+             id: data.id, //在後端資料庫 會自動建立id
+             title: data.title,
+             isDone: data.isDone,
+           },
+         ];
+       });
 
-    setTodos((prevTodos) => {
-      return [
-        ...prevTodos,
-        {
-          id: Math.random() * 100,
-          title: inputValue,
-          isDone: false,
-        },
-      ];
-    });
-
-    setInputValue('');
+       setInputValue('');
+    }catch(error){
+      console.log(error)
+    }
   };
 
-
-
-  const handleKeyDown = ()=>{
+  const handleKeyDown = async ()=>{
     if (inputValue.length === 0) {
       return;
     }
+ try{
+       const data = await createTodo({
+         title: inputValue,
+         isDone: false,
+       });
+       setTodos((prevTodos) => {
+         return [
+           ...prevTodos,
+           {
+             id: data.id, //在後端資料庫 會自動建立id
+             title: data.title,
+             isDone: data.isDone,
+           },
+         ];
+       });
 
-    setTodos((prevTodos) => {
-      return [
-        ...prevTodos,
-        {
-          id: Math.random() * 100,
-          title: inputValue,
-          isDone: false,
-        },
-      ];
-    });
-
-    setInputValue('');
+       setInputValue('');
+    }catch(error){
+      console.log(error)
+    }
   }
 
   //id 是來自callback上來的id
-  const handleToggleDone = (id)=>{
+  const handleToggleDone = async (id)=>{
+    try{
+       const currentTodo = todos.find((todo)=>
+      todo.id === id
+    ) 
+   await patchTodo({
+      id,
+      isDone: !currentTodo.isDone
+    })
     setTodos((prevTodos)=>{
       return prevTodos.map((todo)=>{
         if(todo.id === id){
@@ -85,6 +86,10 @@ const TodoPage = () => {
         return todo
       })
     })
+    }catch(error){
+      console.log(error)
+    }
+   
   }
 
   const handleChangeMode = ({id,isEdit})=>{
@@ -100,31 +105,58 @@ const TodoPage = () => {
     })
   }
 
-  const handleSave = ({id,title})=>{
-    setTodos((prevTodos)=>{
-      return prevTodos.map((todo)=>{
-        if(todo.id === id ){
+  const handleSave = async ({ id, title }) => {
+    try {
+       await patchTodo({
+      id,
+      title,
+    });
+    setTodos((prevTodos) => {
+      return prevTodos.map((todo) => {
+        if (todo.id === id) {
           return {
             ...todo,
             title,
-            isEdit:false
-          }
+            isEdit: false,
+          };
         }
         return todo;
-      })
-    })
-  }
+      });
+    });
+    }catch(error){
+      console.log(error)
+    } 
+  };
 
-  const handleDelete = ({id})=>{
+  const handleDelete = async ({id})=>{
+    try {
+      await deleteTodo(id)
     setTodos((prevTodos)=>{
       return prevTodos.filter((todo)=>
         todo.id !== id
       )
     })
+    }catch(error){
+      console.log(error)
+    }  
   }
 
-  
+  useEffect(()=>{
+    const getTodosAsync = async ()=>{
+      try{
+        const todos = await getTodos();
+      setTodos(todos.map((todo)=>({
+        ...todo,
+        isEdit:false
+      })))
+      }catch(error){
+        console.log(error)
+      }     
+    } 
+    getTodosAsync(); 
+  },[])
 
+  // useEffect(()=>{},[])
   return (
     <div>
       TodoPage
