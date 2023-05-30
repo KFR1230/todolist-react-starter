@@ -72,7 +72,7 @@ const StyledAddTodoActionContainer = styled.div`
 const TodoInput = ({inputValue, onAddTodo,onChange,onKeyDown}) => {
   return (
     <StyledAddTodoContainer className={
-      clsx('',{ active: inputValue.length > 0})
+      clsx('',{ active: inputValue.length > 0}) //如果inputValue.length > 0 變回傳active 
     }>
       <StyledLabelIcon className="icon" htmlFor="add-todo-input" />
       <StyledInputContainer>

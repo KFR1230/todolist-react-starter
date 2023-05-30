@@ -103,16 +103,16 @@ const StyledTaskItem = styled.div`
 `;
 
 const TodoItem = ({todo,onSave,onDelete,onToggleDone,onChangeMode}) => {
-  const inputRef = useRef(null);
+  const inputRef = useRef(null); //透過 inputRef 取得「正在輸入的內容」
 
-  const handleKeyDown = (event)=>{
-    if( inputRef.current.value.length >0 && event.key === "Enter"){
-      onSave?.({ id:todo.id, title: inputRef.current.value})
+  const handleKeyDown = (event) => {
+    if (inputRef.current.value.length > 0 && event.key === 'Enter') {
+      onSave?.({ id: todo.id, title: inputRef.current.value });
     }
-    if(event.key === "Escape"){
-      onChangeMode?.({id:todo.id, isEdit: false})
+    if (event.key === 'Escape') {
+      onChangeMode?.({ id: todo.id, isEdit: false });
     }
-  }
+  };
 
   return (
     <StyledTaskItem
@@ -128,24 +128,23 @@ const TodoItem = ({todo,onSave,onDelete,onToggleDone,onChangeMode}) => {
       </div>
       <div
         className="task-item-body"
-        onDoubleClick={() => onChangeMode?.({ id: todo.id , isEdit: true })}
+        onDoubleClick={() => onChangeMode?.({ id: todo.id, isEdit: true })}
       >
         <span className="task-item-body-text">{todo.title}</span>
-        <input 
-        className="task-item-body-input" 
-        ref={inputRef} //ref 可以抓到正在輸入的值 
-        // 當輸入完成後 可以透過Enter來儲存編輯
-        onKeyDown={handleKeyDown}
-        defaultValue={todo.title}
-        /> 
-        
+        <input
+          className="task-item-body-input"
+          ref={inputRef} //ref 可以抓到正在輸入的值
+          // 當輸入完成後 可以透過Enter來儲存編輯
+          onKeyDown={handleKeyDown}
+          defaultValue={todo.title}
+        />
       </div>
       <div className="task-item-action ">
-        <button 
-        className="btn-reset btn-destroy icon"
-        onClick={()=>{
-          onDelete?.({id: todo.id})
-        }}  
+        <button
+          className="btn-reset btn-destroy icon"
+          onClick={() => {
+            onDelete?.({ id: todo.id });
+          }}
         ></button>
       </div>
     </StyledTaskItem>

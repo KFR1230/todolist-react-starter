@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useAuth } from 'context/AuthContext';
 
 const StyledFooter = styled.footer`
   display: flex;
@@ -31,11 +32,16 @@ const StyledButton = styled.button`
   }
 `;
 
-const Footer = ({total}) => {
+const Footer = ({ total }) => {
+  const {logout} = useAuth()
+  const handleClick = () => {
+    logout()
+  };
+
   return (
     <StyledFooter>
       <p>剩餘項目數： {total}</p>
-      <StyledButton>登出</StyledButton>
+      <StyledButton onClick={handleClick}>登出</StyledButton>
     </StyledFooter>
   );
 };
