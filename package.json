@@ -1,8 +1,8 @@
 {
   "name": "todolist-react",
   "version": "0.1.0",
-  "private": true,
   "homepage": "https://KFR1230.github.io/todolist-react-starter",
+  "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
