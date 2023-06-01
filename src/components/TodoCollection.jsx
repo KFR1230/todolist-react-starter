@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import TodoItem from './TodoItem';
 
 const TodoCollection = ({

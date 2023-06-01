@@ -1,4 +1,3 @@
-import { getTodo } from 'api/todos';
 import { Footer, Header, TodoCollection, TodoInput } from 'components';
 import { useEffect, useState } from 'react';
 import { getTodos, createTodo, patchTodo, deleteTodo } from 'api/todos';

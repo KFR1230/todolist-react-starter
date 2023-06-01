@@ -7,11 +7,9 @@ import {
 import { ACLogoIcon } from 'assets/images';
 import { AuthInput } from 'components';
 import { useState } from 'react';
-import { login } from '../api/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useEffect } from 'react';
-import { checkPermission } from '../api/auth';
 import { useAuth } from 'context/AuthContext';
 
 const LoginPage = () => {
